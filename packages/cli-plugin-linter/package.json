@@ -1,6 +1,6 @@
 {
   "name": "@baiyu/cli-plugin-linter",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "a linter (eslint, stylelint, commitlint) plugin for baiyu-cli",
   "keywords": [
     "eslint",
