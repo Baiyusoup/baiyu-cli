@@ -1,44 +1,31 @@
 const BASE_DEPS_MAP = {
   base: {
     eslint: '^7.20.0',
-    'eslint-plugin-prettier': '',
-    'eslint-config-prettier': '',
-    'eslint-plugin-import': '',
+    'eslint-plugin-prettier': '^4.0.0',
+    'eslint-config-prettier': '^8.3.0',
+    'eslint-plugin-import': '^2.24.2',
+    'eslint-plugin-eslint-comments': '^3.2.0',
   },
   typescript: {
-    'eslint-import-resolver-typescript': '',
+    'eslint-import-resolver-typescript': '^2.5.0',
+    '@typescript-eslint/eslint-plugin': '^4.33.0',
+    '@typescript-eslint/parser': '^4.33.0',
   },
 }
 
-const VUE_DEPS_MAP = Object.assign(
-  {
-    base: {
-      'eslint-plugin-vue': '^7.6.0',
-      '@vue/eslint-config-prettier': '^6.0.0',
-    },
-    typescript: {
-      '@vue/eslint-config-typescript': '^7.0.0',
-      '@typescript-eslint/eslint-plugin': '^4.15.1',
-      '@typescript-eslint/parser': '^4.15.1',
-    },
+const VUE_DEPS_MAP = {
+  base: {
+    'eslint-plugin-vue': '^7.6.0',
   },
-  BASE_DEPS_MAP
-)
+}
 
-const REACT_DEPS_MAP = Object.assign(
-  {
-    base: {
-      'eslint-plugin-react': '',
-      'eslint-plugin-react-hooks': '',
-      'eslint-plugin-jsx-a11y': '',
-    },
-    typescript: {
-      '@typescript-eslint/parser': '',
-      '@typescript-eslint/eslint-plugin': '',
-    },
+const REACT_DEPS_MAP = {
+  base: {
+    'eslint-plugin-react': '^7.26.1',
+    'eslint-plugin-react-hooks': '^4.2.0',
+    'eslint-plugin-jsx-a11y': '^6.4.1',
   },
-  BASE_DEPS_MAP
-)
+}
 
 // exports.DEPS_MAP = DEPS_MAP
 exports.BASE_DEPS_MAP = BASE_DEPS_MAP
@@ -46,18 +33,16 @@ exports.VUE_DEPS_MAP = VUE_DEPS_MAP
 exports.REACT_DEPS_MAP = REACT_DEPS_MAP
 
 exports.getDeps = function (api, preset) {
-  const deps = {}
+  const deps = Object.assign({}, BASE_DEPS_MAP.base)
+  if (api.hasPlugin('typescript')) {
+    Object.assign(deps, BASE_DEPS_MAP.typescript)
+  }
   if (!preset) {
-    Object.assign(deps, BASE_DEPS_MAP.base)
-    if (api.hasPlugin('typescript')) {
-      Object.assign(deps, BASE_DEPS_MAP.typescript)
-    }
     return deps
   }
   Object.assign(deps, [`${preset}_DEPS_MAP`].base)
   if (api.hasPlugin('typescript')) {
     Object.assign(deps, [`${preset}_DEPS_MAP`].typescript)
   }
-
   return deps
 }

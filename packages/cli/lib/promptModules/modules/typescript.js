@@ -6,7 +6,7 @@ module.exports = (promptAPI) => {
 
   promptAPI.onPromptCompleteCb((answers, options) => {
     if (answers.features.includes('ts')) {
-      options.plugins['@baiyu/cli-plugin-typescript'] = {}
+      options.plugins['@baiyusoup/cli-plugin-typescript'] = {}
     }
   })
 }

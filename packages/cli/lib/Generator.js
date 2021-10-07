@@ -110,7 +110,7 @@ module.exports = class Generator {
     // 拿到所有插件的generator
     // this.allPlugins = this.resolveAllPlugins()
 
-    const cliService = plugins.find((p) => p.id === '@baiyu/cli-service')
+    const cliService = plugins.find((p) => p.id === '@baiyusoup/cli-service')
 
     this.rootOptions = cliService.options
   }

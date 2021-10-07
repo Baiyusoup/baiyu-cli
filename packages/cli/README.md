@@ -1,11 +1,9 @@
-# `@baiyu/cli`
+# `@baiyusoup/cli`
 
-> TODO: description
+a Self-use CLI
 
 ## Usage
 
-```
-const cli = require('@baiyu/cli');
-
-// TODO: DEMONSTRATE API
+```shell
+baiyu create <project-name>
 ```

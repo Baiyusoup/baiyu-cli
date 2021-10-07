@@ -44,7 +44,7 @@ class Creator extends EventEmitter {
     const { run, name, context } = this
     let preset = await this.promptAndResolvePreset()
 
-    preset.plugins['@baiyu/cli-service'] = Object.assign(
+    preset.plugins['@baiyusoup/cli-service'] = Object.assign(
       {
         projectName: name,
       },
@@ -70,7 +70,7 @@ class Creator extends EventEmitter {
       let { version } = preset.plugins[dep]
       if (!version) {
         // TODO 获取插件的版本
-        version = '^0.1.0'
+        version = '~0.1.0'
       }
       pkg.devDependencies[dep] = version
     })
@@ -114,7 +114,7 @@ class Creator extends EventEmitter {
 
   async resolvePlugins(rawPlugins, pkg) {
     // 保证@baiyu/cli-service 第一个被解析
-    rawPlugins = sortObject(rawPlugins, ['@baiyu/cli-service'], true)
+    rawPlugins = sortObject(rawPlugins, ['@baiyusoup/cli-service'], true)
     const plugins = []
     for (const id of Object.keys(rawPlugins)) {
       const apply = loadModule(`${id}/generator`, this.context) || (() => {})

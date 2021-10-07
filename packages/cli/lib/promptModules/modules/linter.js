@@ -24,7 +24,7 @@ module.exports = (promptAPI) => {
 
   promptAPI.onPromptCompleteCb((answers, options) => {
     if (answers.features.includes('linter')) {
-      options.plugins['@baiyu/cli-plugin-linter'] = {
+      options.plugins['@baiyusoup/cli-plugin-linter'] = {
         config: answers.lintConfig,
         template: answers.framework,
       }

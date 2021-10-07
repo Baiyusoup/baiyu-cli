@@ -25,9 +25,9 @@ module.exports = (promptAPI) => {
 
   promptAPI.onPromptCompleteCb((answers, options) => {
     if (answers.features.includes('jest')) {
-      options.plugins['@baiyu/cli-plugin-jest'] = {}
+      options.plugins['@baiyusoup/cli-plugin-jest'] = {}
     } else if (answers.features.includes('mocha')) {
-      options.plugins['@baiyu/cli-plugin-mocha'] = {}
+      options.plugins['@baiyusoup/cli-plugin-jest'] = {}
     }
   })
 }

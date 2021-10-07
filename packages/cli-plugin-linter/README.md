@@ -1,11 +1,11 @@
-# `@baiyu/cli-plugin-linter`
+# `@baiyusoup/cli-plugin-linter`
 
 > TODO: description
 
 ## Usage
 
 ```
-const cliPluginLinter = require('@baiyu/cli-plugin-linter');
+const cliPluginLinter = require('@baiyusoup/cli-plugin-linter');
 
 // TODO: DEMONSTRATE API
 ```
