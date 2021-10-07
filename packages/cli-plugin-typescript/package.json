@@ -1,6 +1,6 @@
 {
   "name": "@baiyu/cli-plugin-typescript",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "typescript plugin for baiyu-cli",
   "keywords": [
     "typescript",
