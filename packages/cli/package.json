@@ -1,6 +1,6 @@
 {
   "name": "@baiyu/cli",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Command line interface for rapid development",
   "keywords": [
     "CLI"
@@ -8,22 +8,16 @@
   "author": "Baiyusoup <1575727840@qq.com>",
   "homepage": "https://github.com/Baiyusoup/baiyu-cli#readme",
   "license": "MIT",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+  "bin": {
+    "baiyu": "bin/baiyu.js"
   },
-  "files": [
-    "lib"
-  ],
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Baiyusoup/baiyu-cli.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "url": "git+https://github.com/Baiyusoup/baiyu-cli.git",
+    "directory": "packages/cli"
   },
   "bugs": {
     "url": "https://github.com/Baiyusoup/baiyu-cli/issues"
