@@ -1,5 +1,5 @@
 {
-  "name": "@baiyu/cli-service",
+  "name": "@baiyusoup/cli-service",
   "version": "0.1.0",
   "description": "local service for baiyu-cli project",
   "keywords": [
