@@ -40,9 +40,9 @@ exports.getDeps = function (api, preset) {
   if (!preset) {
     return deps
   }
-  Object.assign(deps, [`${preset}_DEPS_MAP`].base)
+  Object.assign(deps, [`${(preset + '').toUpperCase()}_DEPS_MAP`].base)
   if (api.hasPlugin('typescript')) {
-    Object.assign(deps, [`${preset}_DEPS_MAP`].typescript)
+    Object.assign(deps, [`${(preset + '').toUpperCase()}_DEPS_MAP`].typescript)
   }
   return deps
 }
