@@ -5,6 +5,12 @@ module.exports = (api, { config, template }, rootOptions) => {
   const commitlintConfig = require('./config/commitlint/options').config()
   const prettierConfig = require('./config/prettier/options').config()
 
+  const exts = require('./config/eslint/options').getExts(
+    api,
+    rootOptions.cssPreprocessor,
+    template
+  )
+
   const devDependencies = Object.assign({}, eslintDeps, commitlintDeps, {
     'lint-staged': '^11.2.0',
     prettier: '^2.4.1',
@@ -13,8 +19,9 @@ module.exports = (api, { config, template }, rootOptions) => {
   const pkg = {
     scripts: {
       lint: 'npm run lint:eslint && npm run lint:prettier',
-      'lint:eslint': 'eslint --fix -c .eslintrc.js --ext .js, .',
-      'lint:prettier': 'prettier --write "**/*.{js,json,md}"',
+      'lint:eslint': `eslint --fix -c .eslintrc.js --ext ${exts.eslint.join()}`,
+      'lint:prettier': `prettier --write "**/*.{
+        ${exts.prettier.map((ext) => ext.replace(/^\./, '')).join(',')}}"`,
       'pre-commit:lint': 'lint-staged',
       'commit-msg:lint': 'commitlint --config commitlint.config.js -e',
       commit: 'cz',
@@ -29,11 +36,10 @@ module.exports = (api, { config, template }, rootOptions) => {
     devDependencies,
   }
 
-  const extensions = require('./config/eslint/options')
-    .extensions(api)
-    .map((ext) => ext.replace(/^\./, ''))
   pkg['lint-staged'] = {
-    [`*.{${extensions.join(',')}}`]: 'npm run lint',
+    [`*.{
+      ${exts.prettier.map((ext) => ext.replace(/^\./, '')).join(',')}
+    }`]: 'npm run lint',
   }
 
   api.render('./config/eslint/template')
@@ -48,15 +54,11 @@ module.exports = (api, { config, template }, rootOptions) => {
 
     pkg.scripts[
       'lint:stylelint'
-    ] = `stylelint --fix --config stylelint.config.js **/*.{css${
-      ', ' + rootOptions.cssPreprocessor
-    }}`
-    const oldLintScript = pkg.scripts['lint']
-    pkg.scripts['lint'] = 'npm run lint:style && ' + oldLintScript
+    ] = `stylelint --fix --config stylelint.config.js **/*.{
+      ${exts.stylelint.map((ext) => ext.replace(/^\./, '')).join(',')}}`
 
-    pkg.scripts[
-      'lint:prettier'
-    ] = `prettier --write "**/*.{js,json,md,css,${rootOptions.cssPreprocessor}}"`
+    pkg.scripts['lint'] =
+      'npm run lint:eslint && npm run lint:stylelint && npm run lint:prettier'
   }
 
   api.extendPackage(pkg)

@@ -4,7 +4,6 @@ const BASE_DEPS_MAP = {
     'eslint-plugin-prettier': '^4.0.0',
     'eslint-config-prettier': '^8.3.0',
     'eslint-plugin-import': '^2.24.2',
-    'eslint-plugin-eslint-comments': '^3.2.0',
   },
   typescript: {
     'eslint-import-resolver-typescript': '^2.5.0',
@@ -15,7 +14,7 @@ const BASE_DEPS_MAP = {
 
 const VUE_DEPS_MAP = {
   base: {
-    'eslint-plugin-vue': '^7.6.0',
+    'eslint-plugin-vue': '^7.19.1',
   },
 }
 
@@ -41,8 +40,5 @@ exports.getDeps = function (api, preset) {
     return deps
   }
   Object.assign(deps, [`${(preset + '').toUpperCase()}_DEPS_MAP`].base)
-  if (api.hasPlugin('typescript')) {
-    Object.assign(deps, [`${(preset + '').toUpperCase()}_DEPS_MAP`].typescript)
-  }
   return deps
 }

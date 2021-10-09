@@ -1,11 +1,4 @@
 # `@baiyusoup/cli-plugin-linter`
 
-> TODO: description
+baiyusoup-cli 自用规范化插件
 
-## Usage
-
-```
-const cliPluginLinter = require('@baiyusoup/cli-plugin-linter');
-
-// TODO: DEMONSTRATE API
-```

@@ -7,29 +7,15 @@ const baseConfig = {
   root: true,
   extends: [
     'eslint:recommended',
-    'plugin:eslint-comments/recommended', // eslint-plugin-eslint-comments
     'plugin:import/recommended', // eslint-plugin-import
   ],
   rules: {
     'no-debugger': 'warn', // 调试
     'no-console': 'warn', // 日志打印
-    // comments，下面安装了 eslint-plugin-eslint-comments 才配置
-    'eslint-comments/disable-enable-pair': [
-      'warn',
-      {
-        allowWholeFile: true,
-      },
-    ],
   },
 }
 
-const baseTsConfig = {
-  parser: '@typescript-eslint/parser',
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:import/typescript',
-  ],
-  plugins: ['@typescript-eslint'],
+const baseTypescriptConfig = {
   settings: {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
@@ -41,6 +27,7 @@ const baseTsConfig = {
       },
     },
   },
+  // ts 规则单独覆盖
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
@@ -107,7 +94,29 @@ const reactConfig = {
 }
 
 const vueConfig = {
-  extends: ['plugin:vue/vue3-recommended'],
+  base: {
+    extends: [
+      'plugin:vue/vue3-essential',
+      'plugin:vue/vue3-strongly-recommended',
+      'plugin:vue/vue3-recommended',
+    ],
+    settings: {
+      vue: {
+        version: 'detect',
+      },
+    },
+  },
+  typescript: {
+    parser: 'vue-eslint-parser',
+    parserOptions: {
+      parser: '@typescript-eslint/parser',
+      ecmaVersion: 2021,
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
 }
 
 const templateConfig = (template) =>
@@ -124,7 +133,7 @@ exports.config = (api, preset) => {
   }
 
   if (api.hasPlugin('typescript')) {
-    Object.assign(config, baseTsConfig)
+    Object.assign(config, baseTypescriptConfig)
   }
 
   // 保证plugin:prettier/recommended是最后一个
@@ -140,8 +149,36 @@ exports.config = (api, preset) => {
 //   return fn
 // }
 
-const baseExtensions = ['.js', '.jsx', '.vue']
-exports.extensions = (api) =>
-  api.hasPlugin('typescript')
-    ? baseExtensions.concat('.ts', '.tsx')
-    : baseExtensions
+exports.getExts = (api, cssPreprocessor, template) => {
+  const prettier = new Set(['.md', '.json', '.yml'])
+  const eslint = ['.js']
+  const stylelint = ['.css']
+
+  const tsFlag = api.hasPlugin('typescript')
+
+  if (cssPreprocessor) {
+    stylelint.push(cssPreprocessor === 'less' ? '.less' : '.scss')
+  }
+
+  if (tsFlag) {
+    eslint.push('.ts')
+  }
+
+  if (template) {
+    if (tsFlag) {
+      eslint.push('.tsx')
+    } else {
+      eslint.push('.jsx')
+    }
+    if (template === 'vue') {
+      eslint.push('.vue')
+      stylelint.push('.vue')
+    }
+  }
+  prettier.add(...eslint).add(...stylelint)
+  return {
+    prettier: Array.from(prettier),
+    eslint,
+    stylelint,
+  }
+}
