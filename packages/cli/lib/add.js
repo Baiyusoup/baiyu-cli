@@ -33,7 +33,8 @@ async function add(pluginToAdd, context = process.cwd()) {
   }
 }
 module.exports = (...args) => {
-  return add(...args).catch(() => {
+  return add(...args).catch((e) => {
+    console.error(e)
     process.exit(1)
   })
 }

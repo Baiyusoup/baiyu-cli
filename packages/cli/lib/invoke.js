@@ -84,7 +84,8 @@ async function runGenerator(context, plugin, pkg) {
   )
 }
 module.exports = (...args) => {
-  return invoke(...args).catch(() => {
+  return invoke(...args).catch((e) => {
+    console.error(e)
     process.exit(1)
   })
 }

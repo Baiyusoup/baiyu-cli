@@ -2,6 +2,7 @@ const EventEmitter = require('events')
 const execa = require('execa')
 const inquirer = require('inquirer')
 const chalk = require('chalk')
+const ora = require('ora')
 const { loadModule } = require('@vue/cli-shared-utils')
 const sortObject = require('./utils/sortObject')
 const PromptModuleAPI = require('./promptModules/PromptModuleAPI')
@@ -37,7 +38,12 @@ class Creator extends EventEmitter {
   }
 
   run(command, args) {
-    return execa(command, args, { cwd: this.context })
+    const spinner = ora(
+      'Now is running ' + command + (args && args.join(' '))
+    ).start()
+    const res = execa(command, args, { cwd: this.context })
+    spinner.stop()
+    return res
   }
 
   async create() {

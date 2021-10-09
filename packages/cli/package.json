@@ -34,5 +34,8 @@
     "isbinaryfile": "^4.0.8",
     "slash": "^3.0.0",
     "validate-npm-package-name": "^3.0.0"
+  },
+  "devDependencies": {
+    "ora": "5.4.1"
   }
 }

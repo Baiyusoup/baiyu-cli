@@ -44,7 +44,8 @@ async function create(projectName) {
   await creator.create()
 }
 module.exports = (...args) => {
-  return create(...args).catch(() => {
+  return create(...args).catch((e) => {
+    console.error(e)
     process.exit(1)
   })
 }
