@@ -39,10 +39,11 @@ class Creator extends EventEmitter {
 
   run(command, args) {
     const spinner = ora(
-      'Now is running ' + command + (args && args.join(' '))
+      `Now is running ${command} ${args && args.join(' ')}`
     ).start()
-    const res = execa(command, args, { cwd: this.context })
-    spinner.stop()
+    const res = execa(command, args, { cwd: this.context }).then(() => {
+      spinner.stop()
+    })
     return res
   }
 
