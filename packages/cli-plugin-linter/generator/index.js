@@ -20,8 +20,9 @@ module.exports = (api, { config, template }, rootOptions) => {
     scripts: {
       lint: 'npm run lint:eslint && npm run lint:prettier',
       'lint:eslint': `eslint --fix -c .eslintrc.js --ext ${exts.eslint.join()}`,
-      'lint:prettier': `prettier --write "**/*.{
-        ${exts.prettier.map((ext) => ext.replace(/^\./, '')).join(',')}}"`,
+      'lint:prettier': `prettier --write "**/*.{${exts.prettier
+        .map((ext) => ext.replace(/^\./, ''))
+        .join(',')}}"`,
       'pre-commit:lint': 'lint-staged',
       'commit-msg:lint': 'commitlint --config commitlint.config.js -e',
       commit: 'cz',
@@ -37,9 +38,8 @@ module.exports = (api, { config, template }, rootOptions) => {
   }
 
   pkg['lint-staged'] = {
-    [`*.{
-      ${exts.prettier.map((ext) => ext.replace(/^\./, '')).join(',')}
-    }`]: 'npm run lint',
+    [`*.{${exts.prettier.map((ext) => ext.replace(/^\./, '')).join(',')}}`]:
+      'npm run lint',
   }
 
   api.render('./config/eslint/template')
@@ -54,8 +54,9 @@ module.exports = (api, { config, template }, rootOptions) => {
 
     pkg.scripts[
       'lint:stylelint'
-    ] = `stylelint --fix --config stylelint.config.js **/*.{
-      ${exts.stylelint.map((ext) => ext.replace(/^\./, '')).join(',')}}`
+    ] = `stylelint --fix --config stylelint.config.js **/*.{${exts.stylelint
+      .map((ext) => ext.replace(/^\./, ''))
+      .join(',')}}`
 
     pkg.scripts['lint'] =
       'npm run lint:eslint && npm run lint:stylelint && npm run lint:prettier'

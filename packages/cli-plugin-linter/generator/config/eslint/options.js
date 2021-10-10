@@ -67,29 +67,31 @@ const baseTypescriptConfig = {
 }
 
 const reactConfig = {
-  settings: {
-    react: {
-      version: 'detect',
+  base: {
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
-  },
-  parserOptions: {
-    ecmaVersion: 2021,
-    ecmaFeatures: {
-      jsx: true,
+    parserOptions: {
+      ecmaVersion: 2021,
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
-  },
-  extends: [
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended',
-  ],
-  rules: {
-    // react
-    'react/self-closing-comp': 'error',
-    // click element muse have keyboard events
-    'jsx-a11y/click-events-have-key-events': 'off',
-    // click element must have a role property
-    'jsx-a11y/no-static-element-interactions': 'off',
+    extends: [
+      'plugin:react/recommended',
+      'plugin:react-hooks/recommended',
+      'plugin:jsx-a11y/recommended',
+    ],
+    rules: {
+      // react
+      'react/self-closing-comp': 'error',
+      // click element muse have keyboard events
+      'jsx-a11y/click-events-have-key-events': 'off',
+      // click element must have a role property
+      'jsx-a11y/no-static-element-interactions': 'off',
+    },
   },
 }
 
@@ -120,7 +122,7 @@ const vueConfig = {
 }
 
 const templateConfig = (template) =>
-  template === 'vue' ? vueConfig : reactConfig
+  template === 'vue' ? vueConfig.base : reactConfig.base
 
 exports.config = (api, preset) => {
   const config = Object.assign({}, baseConfig)
@@ -133,6 +135,9 @@ exports.config = (api, preset) => {
   }
 
   if (api.hasPlugin('typescript')) {
+    if (preset && preset === 'vue') {
+      Object.assign(config, vueConfig.typescript)
+    }
     Object.assign(config, baseTypescriptConfig)
   }
 
@@ -157,7 +162,13 @@ exports.getExts = (api, cssPreprocessor, template) => {
   const tsFlag = api.hasPlugin('typescript')
 
   if (cssPreprocessor) {
-    stylelint.push(cssPreprocessor === 'less' ? '.less' : '.scss')
+    let processor = '.scss'
+    if (cssPreprocessor === 'less') {
+      processor = '.less'
+    } else if (cssPreprocessor === 'stylus') {
+      processor = '.stylus'
+    }
+    stylelint.push(processor)
   }
 
   if (tsFlag) {
@@ -175,7 +186,7 @@ exports.getExts = (api, cssPreprocessor, template) => {
       stylelint.push('.vue')
     }
   }
-  prettier.add(...eslint).add(...stylelint)
+  ;[...eslint, ...stylelint].forEach((ext) => prettier.add(ext))
   return {
     prettier: Array.from(prettier),
     eslint,
