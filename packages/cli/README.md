@@ -1,6 +1,6 @@
 # `@baiyusoup/cli`
 
-a Self-use CLI
+个人自用手脚架
 
 ## Usage
 

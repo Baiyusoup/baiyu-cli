@@ -8,7 +8,7 @@
     "commitlint",
     "prettier"
   ],
-  "author": "Baiyusoup <1575727840@qq.com>",
+  "author": "Baiyusoup",
   "homepage": "https://github.com/Baiyusoup/baiyu-cli#readme",
   "license": "MIT",
   "publishConfig": {
