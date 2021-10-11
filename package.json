@@ -15,9 +15,9 @@
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:prettier": "prettier --write \"**/*.{js,json,md}\"",
     "lint:eslint": "eslint --fix -c .eslintrc.js --ext .js, .",
-    "commit-msg:commitlint": "commitlint --config commitlint.config.js -e",
+    "commit-msg:lint": "commitlint --config commitlint.config.js -e",
+    "pre-commit:lint": "lint-staged",
     "commit": "cz",
-    "pre-commit:lint-staged": "lint-staged",
     "test": "jest"
   },
   "devDependencies": {

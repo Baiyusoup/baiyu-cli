@@ -5,13 +5,13 @@ const globby = require('globby')
 const { isBinaryFileSync } = require('isbinaryfile')
 const normalizeFilePaths = require('./normalizeFilePaths')
 
-module.exports = async function readFiles (context) {
+module.exports = async function readFiles(context) {
   const files = await globby(['**'], {
     cwd: context,
     onlyFiles: true,
     gitignore: true,
     ignore: ['**/node_modules/**', '**/.git/**', '**/.svn/**'],
-    dot: true
+    dot: true,
   })
   const res = {}
   for (const file of files) {

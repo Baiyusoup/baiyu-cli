@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const cliPluginTs = require('..');
+// const cliPluginTs = require('..')
 
-describe('@baiyu/cli-plugin-ts', () => {
-    it('needs tests');
-});
+// describe('@baiyu/cli-plugin-ts', () => {
+//   it('needs tests')
+// })

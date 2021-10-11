@@ -1,13 +1,7 @@
 const {
   chalk,
-
   log,
-  error,
-  logWithSpinner,
-  stopSpinner,
-
   resolvePluginId,
-
   loadModule,
 } = require('@vue/cli-shared-utils')
 const execa = require('execa')
