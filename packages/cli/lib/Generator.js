@@ -2,6 +2,7 @@ const { writeFileTree } = require('./utils/writeFileTree')
 const ConfigTransform = require('./ConfigTransform')
 const GeneratorAPI = require('./GeneratorAPI')
 const normalizeFilePath = require('./utils/normalizeFilePaths')
+const sortObject = require('./utils/sortObject')
 
 const defaultConfigTransforms = {
   postcss: new ConfigTransform({
@@ -126,6 +127,8 @@ module.exports = class Generator {
 
     await this.resolveFiles()
 
+    this.sortPkg()
+
     this.files['package.json'] = JSON.stringify(this.pkg, null, 2) + '\n'
 
     // 创建文件
@@ -214,5 +217,30 @@ module.exports = class Generator {
     if (!versionRange) {
       return pluginExists
     }
+  }
+
+  sortPkg() {
+    this.pkg.dependencies = sortObject(this.pkg.dependencies)
+    this.pkg.devDependencies = sortObject(this.pkg.devDependencies)
+    this.pkg = sortObject(this.pkg, [
+      'name',
+      'version',
+      'private',
+      'description',
+      'author',
+      'scripts',
+      'main',
+      'module',
+      'browser',
+      'files',
+      'dependencies',
+      'devDependencies',
+      'peerDependencies',
+      'eslintConfig',
+      'prettier',
+      'postcss',
+      'browserslist',
+      'jest',
+    ])
   }
 }
