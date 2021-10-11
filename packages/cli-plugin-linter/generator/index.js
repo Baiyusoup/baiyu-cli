@@ -13,6 +13,7 @@ module.exports = (api, { config, template }, rootOptions) => {
 
   const devDependencies = Object.assign({}, eslintDeps, commitlintDeps, {
     'lint-staged': '^11.2.0',
+    husky: '^7.0.2',
     prettier: '^2.4.1',
   })
 
@@ -26,10 +27,6 @@ module.exports = (api, { config, template }, rootOptions) => {
       'pre-commit:lint': 'lint-staged',
       'commit-msg:lint': 'commitlint --config commitlint.config.js -e',
       commit: 'cz',
-    },
-    gitHooks: {
-      'pre-commit': 'npm run pre-commit:lint',
-      'commit-msg': 'npm run commit-mgs:lint',
     },
     eslintConfig,
     commitlintConfig,
