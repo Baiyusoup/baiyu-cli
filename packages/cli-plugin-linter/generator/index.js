@@ -39,8 +39,8 @@ module.exports = (api, { config, template }, rootOptions) => {
       'npm run lint',
   }
 
-  api.render('./config/eslint/template')
-  api.render('./config/commitlint/template')
+  api.render('./config/eslint/templates')
+  api.render('./config/commitlint/templates')
 
   if (config === 'stylelint') {
     const stylelintDeps = require('./config/stylelint/deps').getDeps()
