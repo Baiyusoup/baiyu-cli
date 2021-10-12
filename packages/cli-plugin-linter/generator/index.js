@@ -61,15 +61,3 @@ module.exports = (api, { config, template }, rootOptions) => {
 
   api.extendPackage(pkg)
 }
-
-module.exports.applyTS = (api) => {
-  api.extendPackage({
-    eslintConfig: {
-      extends: ['@vue/typescript'],
-      parserOptions: {
-        parser: '@typescript-eslint/parser',
-      },
-    },
-    devDependencies: require('./config/eslint/deps').DEPS_MAP.typescript,
-  })
-}
