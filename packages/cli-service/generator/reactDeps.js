@@ -9,7 +9,7 @@ exports.getDeps = (api) => {
     },
   }
   if (api.hasPlugin('typescript')) {
-    Object.assign(deps.devDependencies, {
+    deps.devDependencies = Object.assign({}, deps.devDependencies, {
       '@types/react': '^17.0.0',
       '@types/react-dom': '^17.0.0',
     })

@@ -4,6 +4,8 @@ exports.getDeps = () => {
     '@commitlint/config-angular': '^13.2.0',
     commitizen: '^4.2.4',
     'cz-conventional-changelog': '^3.3.0',
+    'lint-staged': '^11.2.0',
+    husky: '^7.0.2',
   }
   return deps
 }

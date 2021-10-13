@@ -26,19 +26,23 @@ const REACT_DEPS_MAP = {
   },
 }
 
-// exports.DEPS_MAP = DEPS_MAP
-exports.BASE_DEPS_MAP = BASE_DEPS_MAP
-exports.VUE_DEPS_MAP = VUE_DEPS_MAP
-exports.REACT_DEPS_MAP = REACT_DEPS_MAP
+function getTemplateDeps(template) {
+  if (template === 'vue') {
+    return VUE_DEPS_MAP
+  } else if (template === 'react') {
+    return REACT_DEPS_MAP
+  }
+  return { base: {} }
+}
 
-exports.getDeps = function (api, preset) {
+exports.getDeps = function (api, template) {
   const deps = Object.assign({}, BASE_DEPS_MAP.base)
   if (api.hasPlugin('typescript')) {
     Object.assign(deps, BASE_DEPS_MAP.typescript)
   }
-  if (!preset) {
+  if (!template) {
     return deps
   }
-  Object.assign(deps, [`${(preset + '').toUpperCase()}_DEPS_MAP`].base)
+  Object.assign(deps, getTemplateDeps(template).base)
   return deps
 }

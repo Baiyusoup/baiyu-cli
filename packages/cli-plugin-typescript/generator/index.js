@@ -4,6 +4,5 @@ module.exports = (api) => {
       typescript: '~4.1.5',
     },
   })
-
-  require('./convert')(api)
+  // require('./convert')(api)
 }

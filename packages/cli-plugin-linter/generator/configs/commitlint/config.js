@@ -13,7 +13,7 @@
  * anno: 增加注释
  */
 
-exports.config = () => {
+exports.getConfig = () => {
   const config = {
     extends: ['@commitlint/config-angular'],
     rules: {

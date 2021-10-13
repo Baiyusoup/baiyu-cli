@@ -1,4 +1,4 @@
-exports.config = () => {
+exports.getConfig = () => {
   const config = {
     printWidth: 80,
     tabWidth: 2,

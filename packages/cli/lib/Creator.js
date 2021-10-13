@@ -113,6 +113,9 @@ class Creator extends EventEmitter {
 
     await run(packageManger, ['install'], { cwd: context })
 
+    // 初始化husky
+    await run(packageManger, ['run', 'prepare'], { cwd: context })
+
     console.log()
     console.log(`🎉  Successfully created project ${chalk.yellow(name)}.`)
     console.log()

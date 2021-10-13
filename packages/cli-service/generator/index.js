@@ -1,32 +1,17 @@
+const merge = require('lodash/merge')
+
 module.exports = (api, options) => {
   if (options.configs) {
     api.extendPackage(options.configs)
   }
+  const template = options.template ? options.template : 'native'
+  const templateName = `${template}${api.hasPlugin('typescript') ? '-ts' : ''}`
 
-  api.render('./templates/native')
-  api.extendPackage({
-    scripts: {
-      dev: 'vite',
-      build: 'vite build',
-      serve: 'vite preview',
-    },
-    devDependencies: {
-      vite: '^2.5.10',
-    },
-  })
-  // 原生开发，不使用框架
-  if (!options.template) return
-
-  const pkg = {}
-  const frameworkDeps = require(`./${options.template}Deps`).getDeps(api)
-
-  Object.assign(pkg, frameworkDeps)
-
-  const templateName = `${options.template}${
-    api.hasPlugin('typescript') ? '-ts' : ''
-  }`
-
-  api.render(`./templates/${templateName}`)
+  const pkg = require(`./nativePkg`).getPkg()
+  if (template !== 'native') {
+    merge(pkg, require(`./${template}Deps`).getDeps(api))
+    // Object.assign(pkg, require(`./${template}Deps`).getDeps(api))
+  }
 
   if (options.cssPreprocessor) {
     const deps = {
@@ -40,17 +25,12 @@ module.exports = (api, options) => {
         stylus: '^0.54.8',
       },
     }
-    Object.assign(pkg, {
+
+    merge(pkg, {
       devDependencies: deps[options.cssPreprocessor],
     })
   }
 
+  api.render(`./templates/${templateName}`)
   api.extendPackage(pkg)
-
-  // 删除原生开发的main.js，框架模板对于vite有自身的入口文件
-  if (options.template !== 'vue') {
-    api.postProcessFiles((files) => {
-      delete files['src/main.js']
-    })
-  }
 }

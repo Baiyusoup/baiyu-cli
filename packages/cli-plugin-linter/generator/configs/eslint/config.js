@@ -1,3 +1,5 @@
+const merge = require('lodash/merge')
+const deepClone = require('lodash/cloneDeep')
 const baseConfig = {
   env: {
     node: true,
@@ -10,8 +12,12 @@ const baseConfig = {
     'plugin:import/recommended', // eslint-plugin-import
   ],
   rules: {
-    'no-debugger': 'warn', // 调试
-    'no-console': 'warn', // 日志打印
+    'prettier/prettier': 'warn',
+    'no-shadow': 'error',
+    'no-unused-vars': 'warn',
+    'require-yield': 'warn', // 不允许 generate 函数中没有 yield
+    'import/no-named-as-default': 'off',
+    'import/no-named-as-default-member': 'off',
   },
 }
 
@@ -35,7 +41,7 @@ const baseTypescriptConfig = {
       parser: '@typescript-eslint/parser',
       // 开启静态检查
       parserOptions: {
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: '__dirname',
         ecmaFeatures: {
           jsx: true,
         },
@@ -124,10 +130,13 @@ const vueConfig = {
 const templateConfig = (template) =>
   template === 'vue' ? vueConfig.base : reactConfig.base
 
-exports.config = (api, preset) => {
-  const config = Object.assign({}, baseConfig)
-  if (preset) {
-    Object.assign(config, templateConfig(preset))
+exports.getConfig = (api, template) => {
+  const config = deepClone(baseConfig)
+  if (template) {
+    merge(config, templateConfig(template))
+
+    // 对于数组，会直接覆盖，而不是合并
+    config.extends.unshift(...baseConfig.extends)
   }
 
   if (api.hasPlugin('jest')) {
@@ -135,24 +144,19 @@ exports.config = (api, preset) => {
   }
 
   if (api.hasPlugin('typescript')) {
-    if (preset && preset === 'vue') {
-      Object.assign(config, vueConfig.typescript)
+    merge(config, baseTypescriptConfig)
+    config.extends.push('plugin:import/typescript')
+
+    if (template && template === 'vue') {
+      merge(config, vueConfig.typescript)
+      config.extends.push('plugin:@typescript-eslint/recommended')
     }
-    Object.assign(config, baseTypescriptConfig)
   }
 
   // 保证plugin:prettier/recommended是最后一个
   config.extends.push('plugin:prettier/recommended')
   return config
 }
-
-// __expression is a special flag that allows us to customize stringification
-// output when extracting configs into standalone files
-// function makeJSOnlyValue(str) {
-//   const fn = () => {}
-//   fn.__expression = str
-//   return fn
-// }
 
 exports.getExts = (api, cssPreprocessor, template) => {
   const prettier = new Set(['.md', '.json', '.yml'])

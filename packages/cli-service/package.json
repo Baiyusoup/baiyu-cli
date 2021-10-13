@@ -24,6 +24,7 @@
     "url": "https://github.com/Baiyusoup/baiyu-cli/issues"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "vite": "^2.6.3"
   }
 }
