@@ -39,8 +39,8 @@ module.exports = (api, { config, template }, rootOptions) => {
   if (config === 'stylelint') {
     const stylelint = require('./configs/stylelint')
 
-    merge(pkg.devDependencies, stylelint.getDeps())
-    pkg['stylelintConfig'] = stylelint.getConfig()
+    merge(pkg.devDependencies, stylelint.getDeps(rootOptions))
+    pkg['stylelintConfig'] = stylelint.getConfig(rootOptions)
 
     pkg.scripts[
       'lint:stylelint'

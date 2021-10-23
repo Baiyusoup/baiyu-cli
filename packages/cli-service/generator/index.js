@@ -15,14 +15,11 @@ module.exports = (api, options) => {
 
   if (options.cssPreprocessor) {
     const deps = {
-      'dart-sass': {
+      sass: {
         sass: '^1.32.7',
       },
       less: {
         less: '^4.0.0',
-      },
-      stylus: {
-        stylus: '^0.54.8',
       },
     }
 

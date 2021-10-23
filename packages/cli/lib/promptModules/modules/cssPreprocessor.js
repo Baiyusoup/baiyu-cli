@@ -12,15 +12,11 @@ module.exports = (promptAPI) => {
     choices: [
       {
         name: 'Dart Sass',
-        value: 'dart-sass',
+        value: 'sass',
       },
       {
         name: 'Less',
         value: 'less',
-      },
-      {
-        name: 'Stylus',
-        value: 'stylus',
       },
     ],
   })

@@ -1,4 +1,5 @@
-exports.getConfig = () => {
+exports.getConfig = (rootOptions) => {
+  const existingPreProcessor = rootOptions.cssPreprocessor
   const config = {
     extends: [
       // 标准配置
@@ -31,6 +32,13 @@ exports.getConfig = () => {
     },
     // stylelint 支持直接配置忽略文件
     ignoreFiles: ['node_modules/**/*', 'dist/**/*', 'public/**/*'],
+  }
+  if (existingPreProcessor) {
+    const plugins = {
+      sass: 'stylelint-scss',
+      less: 'stylelint-less',
+    }
+    config.plugins.push(plugins[existingPreProcessor])
   }
   return config
 }
