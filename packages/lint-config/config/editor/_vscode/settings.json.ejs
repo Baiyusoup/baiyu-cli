@@ -1,0 +1,15 @@
+{
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+  <%_ if (enableStylelint) { _%>
+  "stylelint.validate": [<%- stylelintExt.map((ext) => `"${ext.replace(/^\./, '')}"`).join(',') %>],
+  <%_ } _%>
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.markdownlint": true,
+    <%_ if (enableStylelint) { _%>
+    "source.fixAll.stylelint": true
+    <%_ } _%>
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@baiyusoup/templates",
+  "version": "0.1.0",
+  "description": "个人自用开发模板",
+  "keywords": [
+    "vue",
+    "react",
+    "template"
+  ],
+  "author": "Baiyusoup <1575727840@qq.com>",
+  "homepage": "https://github.com/Baiyusoup/baiyu-cli#readme.md",
+  "license": "MIT",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Baiyusoup/baiyu-cli.git",
+    "directory": "packages/templates"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/Baiyusoup/baiyu-cli/issues"
+  }
+}
