@@ -1,6 +1,6 @@
 {
   "name": "@baiyusoup/lint-config",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "个人自用规范化配置包",
   "keywords": [
     "plugin"
