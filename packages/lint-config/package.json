@@ -1,0 +1,33 @@
+{
+  "name": "@baiyusoup/lint-config",
+  "version": "0.1.0",
+  "description": "个人自用规范化配置包",
+  "keywords": [
+    "plugin"
+  ],
+  "author": "Baiyusoup <1575727840@qq.com>",
+  "homepage": "https://github.com/Baiyusoup/baiyu-cli/packages/plugin-linter#readme.md",
+  "license": "MIT",
+  "main": "lib/plugin-linter.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Baiyusoup/baiyu-cli.git",
+    "directory": "packages/plugin-linter"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/Baiyusoup/baiyu-cli/issues"
+  }
+}

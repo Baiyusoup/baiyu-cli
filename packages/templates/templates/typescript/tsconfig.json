@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "outDir": "./lib",
+    "target": "ESNEXT",
+    "module": "ESNEXT",
+    "esModuleInterop": true,
+    "removeComments": true,
+    "declaration": true,
+    "downlevelIteration": true
+  },
+  "include": ["src"]
+}

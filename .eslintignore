@@ -1,4 +1,9 @@
-node_modules
-dist
-public
-templates
+node_modules/
+dist/
+public/
+build/
+packages/templates/templates/
+packages/lint-config/config/
+**/*.min.js
+**/*-min.js
+**/*.bundle.js

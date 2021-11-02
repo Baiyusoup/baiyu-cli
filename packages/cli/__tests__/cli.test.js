@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
-// const cli = require('../bin/baiyu')
+const cli = require('..');
 
-describe('@baiyu/cli', () => {
-  it('needs tests')
-})
+describe('@baiyusoup/cli', () => {
+  it('needs tests');
+});
