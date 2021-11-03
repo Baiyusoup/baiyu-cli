@@ -1,9 +1,10 @@
-import path from 'path';
-import fs from 'fs-extra';
 import deepmerge from 'deepmerge';
+import fs from 'fs-extra';
+import path from 'path';
+import globby from 'globby';
+import ejs, { Options as EjsOptions, Data as EjsData } from 'ejs';
+import { mergeDeps, mergeArray, mergeVSCodeConfig } from './utils/merge';
 import { isBinaryFileSync } from 'isbinaryfile';
-import { globby } from 'globby';
-import { mergeDeps, mergeArray } from './utils/merge';
 import type Generator from './Generator';
 
 const isObj = (target: any) => target !== null && typeof target === 'object';
@@ -59,7 +60,7 @@ class PluginAPI {
     }
   }
 
-  render(source: any) {
+  render(source: any, additionalData?: EjsData, ejsOptions?: EjsOptions) {
     const baseDir = extractCallDir();
     if (typeof source === 'string') {
       source = path.resolve(baseDir, source);
@@ -69,8 +70,9 @@ class PluginAPI {
           const targetPath = rawPath
             .split('/')
             .map((filename) => {
-              const firstChar = filename[0],
-                secondChar = filename[1];
+              const firstChar = filename[0];
+              const secondChar = filename[1];
+
               if (firstChar === '_' && secondChar !== '_') {
                 return `.${filename.slice(1)}`;
               }
@@ -84,7 +86,7 @@ class PluginAPI {
             .join('/');
 
           const sourcePath = path.resolve(source, rawPath);
-          const content = renderFile(sourcePath);
+          const content = await renderFile(sourcePath, additionalData, ejsOptions);
           if (Buffer.isBuffer(content) || /[^\s]/.test(content)) {
             files[targetPath] = content;
           }
@@ -122,11 +124,18 @@ function extractCallDir() {
   return path.dirname(fileName);
 }
 
-function renderFile(name: any) {
-  if (isBinaryFileSync(name)) {
-    return fs.readFileSync(name);
+async function renderFile(filename: any, data?: EjsData, ejsOptions?: EjsOptions) {
+  if (isBinaryFileSync(filename)) {
+    return fs.readFileSync(filename);
   }
-  return fs.readFileSync(name);
+  let content = await ejs.render(fs.readFileSync(filename, 'utf-8'), data || {}, ejsOptions || {});
+
+  // 合并vscode
+  if (/^_*vscode/.test(filename)) {
+    content = mergeVSCodeConfig(filename, content);
+  }
+
+  return content;
 }
 
 export default PluginAPI;

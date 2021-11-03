@@ -1,7 +1,6 @@
 const base = require('../../jest.base');
 
 module.exports = {
+  displayName: '@baiyusoup/cli',
   ...base,
-  name: '@baiyusoup/templates',
-  displayName: '@baiyusoup/templates',
 };

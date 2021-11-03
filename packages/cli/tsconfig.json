@@ -3,16 +3,14 @@
     "rootDir": "./src",
     "baseUrl": "./src",
     "outDir": "./lib",
-    "target": "ES5",
+    "target": "ESNEXT",
     "module": "commonjs",
     "esModuleInterop": true,
     "removeComments": true,
     "resolveJsonModule": true,
     "declaration": true,
     "downlevelIteration": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"]
   },
-  "include": ["src"],
+  "include": ["src"]
 }

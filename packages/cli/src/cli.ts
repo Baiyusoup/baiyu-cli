@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { PKG_VERSION } from './utils/constants';
 import create from './actions/create';
 
 program
-  .version(`Baiyu CLI v${PKG_VERSION}`)
+  .version(`Baiyu CLI v${require('../package.json').version}`)
   .description('Baiyu CLI是作者个人自用手脚架')
   .usage('<command> [options]');
 

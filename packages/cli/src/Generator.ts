@@ -1,13 +1,14 @@
-import PluginAPI from 'PluginAPI';
-import { normalizeFilePath } from './utils/normalizeFilePath';
+import PluginAPI from './PluginAPI';
 import sortObject from './utils/sortObject';
 import writeFileTree from './utils/writeFileTree';
+import ejs from 'ejs';
+import { matchesPluginId } from './utils/matchesPluginId';
+import { normalizeFilePath } from './utils/normalizeFilePath';
 import { PKG_KEY_ORDER, PRESET_PLUGIN_ID } from './utils/constants';
-import type { IGeneratorOptions, IPlugin, PKG } from './types';
+import { IGeneratorOptions, IPlugin, PKG } from './types';
 
 class Generator {
-  private plugins: IPlugin[];
-  private invoking: boolean;
+  plugins: IPlugin[];
   pkg: PKG;
   context: string;
   files: Record<string, any>;
@@ -22,7 +23,7 @@ class Generator {
     this.fileMiddlewareList = [];
     this.postProcessFilesCbs = [];
     const baiyuTemplates = plugins.find((p) => p.id === PRESET_PLUGIN_ID.templates);
-    this.rootOptions = baiyuTemplates.options;
+    this.rootOptions = baiyuTemplates ? baiyuTemplates.options : {};
   }
 
   async generate() {
@@ -36,19 +37,19 @@ class Generator {
   }
 
   async initPlugin() {
-    const { rootOptions, invoking } = this;
+    const { rootOptions } = this;
 
     for (const plugin of this.plugins) {
       const { id, apply, options } = plugin;
       const api = new PluginAPI(id, this, options, rootOptions);
-      await apply(api, options, rootOptions, invoking);
+      await apply(api, options, rootOptions);
     }
   }
 
   async resolveFiles() {
     const files = this.files;
     for (const middleware of this.fileMiddlewareList) {
-      await middleware(files);
+      await middleware(files, ejs.render);
     }
 
     normalizeFilePath(files);
@@ -65,7 +66,7 @@ class Generator {
   }
 
   hasPlugin(id: string) {
-    const pluginExists = [...this.plugins.map((p) => p.id)].some((pid) => pid.includes(id));
+    const pluginExists = [...this.plugins.map((p) => p.id)].some((pid) => matchesPluginId(id, pid));
     return pluginExists;
   }
 }
