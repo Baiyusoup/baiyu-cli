@@ -12,11 +12,11 @@ const deps = {
  * @param {PluginAPI} api
  * @param {*} options
  */
-module.exports = function (api, options) {
+module.exports = function (api, options, rootOptions) {
   const langAndTemplate = options.template.split('/');
   const hasTypescript = langAndTemplate[0] === 'typescript';
-  const template = hasTypescript > 0 ? langAndTemplate[0] : langAndTemplate[1];
-  const templateDir = `${template}${hasTypescript ? '-ts' : ''}`;
+  const template = langAndTemplate.length > 1 ? langAndTemplate[1] : langAndTemplate[0];
+  const templateDir = `${template}${langAndTemplate.length > 1 ? '-ts' : ''}`;
 
   const scripts = {};
   const devDependencies = {};
@@ -38,7 +38,7 @@ module.exports = function (api, options) {
     dependencies['vite'] = '^2.5.10';
 
     // CSS预处理器依赖
-    if (options.preprocessor) {
+    if (rootOptions.preprocessor) {
       Object.assign(devDependencies, {
         sass: '^1.32.7',
         less: '^4.0.0',
@@ -60,7 +60,7 @@ module.exports = function (api, options) {
       scripts['build'] = 'tsc && vite build';
 
       if (template === 'react') {
-        Object.assign(dependencies, {
+        Object.assign(devDependencies, {
           '@types/react': '^17.0.0',
           '@types/react-dom': '^17.0.0',
         });

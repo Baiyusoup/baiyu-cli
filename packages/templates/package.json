@@ -8,14 +8,9 @@
     "template"
   ],
   "author": "Baiyusoup <1575727840@qq.com>",
-  "homepage": "https://github.com/Baiyusoup/baiyu-cli#readme.md",
+  "homepage": "https://github.com/Baiyusoup/baiyu-cli/packages/templates#readme.md",
   "license": "MIT",
-  "directories": {
-    "lib": "lib"
-  },
-  "files": [
-    "lib"
-  ],
+  "main": "generator.js",
   "publishConfig": {
     "access": "public"
   },
@@ -23,9 +18,6 @@
     "type": "git",
     "url": "git+https://github.com/Baiyusoup/baiyu-cli.git",
     "directory": "packages/templates"
-  },
-  "scripts": {
-    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/Baiyusoup/baiyu-cli/issues"

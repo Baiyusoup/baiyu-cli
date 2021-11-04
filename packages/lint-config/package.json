@@ -6,26 +6,16 @@
     "plugin"
   ],
   "author": "Baiyusoup <1575727840@qq.com>",
-  "homepage": "https://github.com/Baiyusoup/baiyu-cli/packages/plugin-linter#readme.md",
+  "homepage": "https://github.com/Baiyusoup/baiyu-cli/packages/lint-config#readme.md",
   "license": "MIT",
-  "main": "lib/plugin-linter.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
+  "main": "generator.js",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Baiyusoup/baiyu-cli.git",
-    "directory": "packages/plugin-linter"
-  },
-  "scripts": {
-    "test": "jest"
+    "directory": "packages/lint-config"
   },
   "bugs": {
     "url": "https://github.com/Baiyusoup/baiyu-cli/issues"
