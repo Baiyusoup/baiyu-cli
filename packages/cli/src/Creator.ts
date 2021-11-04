@@ -7,24 +7,9 @@ import writeFileTree from './utils/writeFileTree';
 import sortObject from './utils/sortObject';
 import Generator from 'Generator';
 import { loadModule } from './utils/loadModule';
-import { PRESET_PLUGIN_ID } from './utils/constants';
+import { PRESET_PLUGIN_ID, PACKAGE_MANAGER_CONFIG } from './utils/constants';
 import { clearConsole, log } from './utils/log';
-import type { InquirerPrompt, Preset, PKG } from './types';
-
-const PACKAGE_MANAGER_CONFIG = {
-  npm: {
-    install: 'install',
-  },
-  yarn: {
-    install: 'add',
-  },
-};
-
-type TPlugin = {
-  id: string;
-  apply: Function;
-  options: Record<string, any>;
-};
+import type { InquirerPrompt, Preset, PKG, IPlugin } from './types';
 
 class Creator {
   name: string;
@@ -140,7 +125,7 @@ class Creator {
 
   async resolvePlugins(rawPlugins: Record<string, any>) {
     rawPlugins = sortObject(rawPlugins, [PRESET_PLUGIN_ID.templates], true);
-    const plugins: TPlugin[] = [];
+    const plugins: IPlugin[] = [];
     for (const id of Object.keys(rawPlugins)) {
       const apply = (await loadModule(`${id}/generator`, this.context)) || (() => {});
       let options = rawPlugins[id] || {};

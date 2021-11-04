@@ -1,5 +1,5 @@
 export enum PRESET_PLUGIN_ID {
-  templates = '@baiyusoup/baiyu-templates',
+  templates = '@baiyusoup/templates',
   lint = '@baiyusouup/lint-config',
 }
 
@@ -18,3 +18,12 @@ export const PKG_KEY_ORDER = [
   'devDependencies',
   'peerDependencies',
 ];
+
+export const PACKAGE_MANAGER_CONFIG = {
+  npm: {
+    install: 'install',
+  },
+  yarn: {
+    install: 'add',
+  },
+};

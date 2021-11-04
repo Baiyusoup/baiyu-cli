@@ -1,11 +1,11 @@
+import ejs from 'ejs';
 import PluginAPI from './PluginAPI';
 import sortObject from './utils/sortObject';
 import writeFileTree from './utils/writeFileTree';
-import ejs from 'ejs';
 import { matchesPluginId } from './utils/matchesPluginId';
 import { normalizeFilePath } from './utils/normalizeFilePath';
 import { PKG_KEY_ORDER, PRESET_PLUGIN_ID } from './utils/constants';
-import { IGeneratorOptions, IPlugin, PKG } from './types';
+import type { IGeneratorOptions, IPlugin, PKG } from './types';
 
 class Generator {
   plugins: IPlugin[];
