@@ -5,7 +5,7 @@ import PromptAPI from './presetPrompt/PromptAPI';
 import getPkgManger from './utils/pkgManger';
 import writeFileTree from './utils/writeFileTree';
 import sortObject from './utils/sortObject';
-import Generator from 'Generator';
+import Generator from './Generator';
 import { loadModule } from './utils/loadModule';
 import { PRESET_PLUGIN_ID, PACKAGE_MANAGER_CONFIG } from './utils/constants';
 import { clearConsole, log } from './utils/log';
@@ -30,11 +30,11 @@ class Creator {
     presetPrompts.forEach((m) => m(promptAPI));
   }
 
-  private run(command: string, args: string[]) {
-    const spiner = ora(` 现在正在执行 ${command} ${args && args.join(' ')}`).start();
-    const res = execa(command, args, { cwd: this.context }).then(() => {
-      spiner.stop();
-    });
+  private async run(command: string, args: string[]) {
+    const spinner = ora(` Now is running ${command} ${args && args.join(' ')}...`);
+    spinner.start();
+    const res = await execa(command, args, { cwd: this.context });
+    spinner.stop();
     return res;
   }
 
@@ -42,7 +42,7 @@ class Creator {
     const featurePrompt = {
       name: 'features',
       type: 'checkbox',
-      message: '选择你想要的功能:',
+      message: 'Check the features needed for your project:',
       choices: [],
     };
     return featurePrompt;
@@ -83,7 +83,7 @@ class Creator {
     log();
     await this.run(pkgManger, [PACKAGE_MANAGER_CONFIG[pkgManger].install]);
 
-    log(`🚀 Invoking plugin...`);
+    log(`🚀 Invoking plugins...`);
     const plugins = await this.resolvePlugins(preset.plugins);
     const generator = new Generator({
       context: this.context,
@@ -94,8 +94,8 @@ class Creator {
 
     await generator.generate();
 
-    log(`📦 Install dependencies...`);
-    await this.run(pkgManger, [PACKAGE_MANAGER_CONFIG[pkgManger].install]);
+    // log(`📦 Install dependencies...`);
+    // await this.run(pkgManger, [PACKAGE_MANAGER_CONFIG[pkgManger].install]);
 
     log();
     log(`🎉 Create ${this.name} success.`);

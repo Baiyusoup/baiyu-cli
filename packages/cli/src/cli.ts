@@ -11,7 +11,7 @@ program
   .command('create <project-name>')
   .description('创建一个新项目')
   .action(async (projectName) => {
-    await create(projectName);
+    await create({ projectName });
   });
 
 program.on('--help', () => {
