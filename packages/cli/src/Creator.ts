@@ -52,14 +52,9 @@ class Creator {
     const preset = await this.resolvePreset();
     const pkgManger = await getPkgManger;
 
-    preset.plugins[PRESET_PLUGIN_ID.templates] = Object.assign(
-      {
-        projectName: this.name,
-      },
-      preset,
-    );
+    preset.projectName = this.name;
 
-    log(`✨ 正在创建项目...`);
+    log(`✨ Creating project...`);
     const pkg: PKG = {
       name: this.name,
       version: '1.0.0',
@@ -81,28 +76,29 @@ class Creator {
       'package.json': JSON.stringify(pkg, null, 2),
     });
 
-    log(`🗃 初始化git仓库...`);
+    log(`🗃 Initialing git...`);
     await this.run('git', ['init']);
 
-    log(`⚙\u{fe0f} 正在下载插件...`);
+    log(`⚙\u{fe0f} Install plugins...`);
     log();
     await this.run(pkgManger, [PACKAGE_MANAGER_CONFIG[pkgManger].install]);
 
-    log(`🚀 运行插件中...`);
+    log(`🚀 Invoking plugin...`);
     const plugins = await this.resolvePlugins(preset.plugins);
     const generator = new Generator({
       context: this.context,
       pkg,
       plugins,
+      rootOptions: preset,
     });
 
     await generator.generate();
 
-    log(`📦 下载依赖中...`);
+    log(`📦 Install dependencies...`);
     await this.run(pkgManger, [PACKAGE_MANAGER_CONFIG[pkgManger].install]);
 
     log();
-    log(`🎉 ${this.name} 创建成功.`);
+    log(`🎉 Create ${this.name} success.`);
     log();
   }
 

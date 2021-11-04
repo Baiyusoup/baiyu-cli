@@ -1,24 +1,25 @@
-import type PromptAPI from '../PromptAPI'
+import type PromptAPI from '../PromptAPI';
 
 export default function (api: PromptAPI) {
   api.injectFeature({
-    name: '使用样式文件',
-    value: 'style'
-  })
+    name: 'Use style files',
+    value: 'style',
+    checked: true,
+  });
 
   api.injectPrompt({
-    name: 'preprocess',
+    name: 'preprocessor',
     type: 'confirm',
-    message: '是否使用CSS预处理器？',
-    when: (answers) => answers.features.includes('style')
-  })
+    message: 'Do you want Preprocessor ?.',
+    when: (answers) => answers.features.includes('style'),
+  });
 
   api.onPromptCompleteCb((answers, options) => {
     if (answers.features.includes('style')) {
-      options.css = true
-      options.preprocessor = answers.preprocessor
+      options.css = true;
+      options.preprocessor = answers.preprocessor;
     } else {
-      options.css = false
+      options.css = false;
     }
-  })
+  });
 }

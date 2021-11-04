@@ -1,5 +1,5 @@
 export interface InitOptions {
-  name: string;
+  projectName: string;
 }
 
 export type PromptChoices = {
@@ -39,6 +39,7 @@ export interface IGeneratorOptions {
   context: string;
   pkg: PKG;
   plugins: IPlugin[];
+  rootOptions: Record<string, any>;
   files?: Record<string, any>;
   invoking?: boolean;
 }

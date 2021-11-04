@@ -4,7 +4,7 @@ import sortObject from './utils/sortObject';
 import writeFileTree from './utils/writeFileTree';
 import { matchesPluginId } from './utils/matchesPluginId';
 import { normalizeFilePath } from './utils/normalizeFilePath';
-import { PKG_KEY_ORDER, PRESET_PLUGIN_ID } from './utils/constants';
+import { PKG_KEY_ORDER } from './utils/constants';
 import type { IGeneratorOptions, IPlugin, PKG } from './types';
 
 class Generator {
@@ -15,15 +15,14 @@ class Generator {
   rootOptions: Record<string, any>;
   fileMiddlewareList: Array<Function>;
   postProcessFilesCbs: Array<Function>;
-  constructor({ context, pkg = {}, plugins = [], files = {} }: IGeneratorOptions) {
+  constructor({ context, pkg = {}, plugins = [], files = {}, rootOptions }: IGeneratorOptions) {
     this.context = context;
     this.plugins = plugins;
     this.pkg = Object.assign({}, pkg);
     this.files = files;
     this.fileMiddlewareList = [];
     this.postProcessFilesCbs = [];
-    const baiyuTemplates = plugins.find((p) => p.id === PRESET_PLUGIN_ID.templates);
-    this.rootOptions = baiyuTemplates ? baiyuTemplates.options : {};
+    this.rootOptions = rootOptions;
   }
 
   async generate() {

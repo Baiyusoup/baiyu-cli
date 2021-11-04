@@ -1,16 +1,16 @@
 export enum PRESET_PLUGIN_ID {
   templates = '@baiyusoup/templates',
-  lint = '@baiyusouup/lint-config',
+  lint = '@baiyusoup/lint-config',
 }
 
 export const PKG_KEY_ORDER = [
   'name',
   'version',
-  'private',
-  'description',
   'author',
-  'scripts',
+  'private',
   'main',
+  'description',
+  'scripts',
   'module',
   'browser',
   'files',
@@ -24,6 +24,6 @@ export const PACKAGE_MANAGER_CONFIG = {
     install: 'install',
   },
   yarn: {
-    install: 'add',
+    install: 'install',
   },
 };

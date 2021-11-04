@@ -1,58 +1,62 @@
+import { PRESET_PLUGIN_ID } from '../../utils/constants';
 import type PromptAPI from '../PromptAPI';
 
 export default function (api: PromptAPI) {
   api.injectFeature({
-    name: '是否需要模板（默认原生JS开发）？',
-    value: 'dev',
+    name: 'Use template (default JS)',
+    value: 'template',
   });
 
   api.injectPrompt({
     name: 'template',
     type: 'list',
-    message: '选择项目的语言（JS/TS）和框架（React/Vue）类型',
-    when: (answer) => answer.features.includes('dev'),
+    message: 'Pick a development language and template:',
+    when: (answers) => answers.features.includes('template'),
     choices: [
       {
-        name: '原生JS开发',
+        name: 'Only JS',
         value: 'native',
       },
       {
-        name: '原生TS开发',
+        name: 'Only TS',
         value: 'typescript',
       },
       {
-        name: 'React项目（Javascript）',
+        name: 'React + JS',
         value: 'react',
       },
       {
-        name: 'React项目（Typescript）',
+        name: 'React + TS',
         value: 'typescript/react',
       },
       {
-        name: 'Vue3项目（Javascript）',
+        name: 'Vue3 + JS',
         value: 'vue',
       },
       {
-        name: 'Vue3项目（Typescript）',
+        name: 'Vue3 + TS',
         value: 'typescript/vue',
       },
       {
-        name: 'Node项目（Javascript）',
+        name: 'Node + JS',
         value: 'node',
       },
       {
-        name: 'Node项目（Typescript）',
+        name: 'Node + TS',
         value: 'typescript/node',
       },
     ],
   });
 
   api.onPromptCompleteCb((answers, options) => {
+    // set @baiyusoup/templates plugin options
+    const pluginOptions = {};
     if (answers.features.includes('template')) {
-      options.template = answers.template;
+      pluginOptions['template'] = answers.template;
     } else {
-      options.template = 'native';
+      pluginOptions['template'] = 'native';
     }
-    options.preprocessor = answers.preprocessor;
+    options.plugins[PRESET_PLUGIN_ID.templates] = pluginOptions;
+    options.template = pluginOptions['template'];
   });
 }

@@ -1,23 +1,23 @@
-import type Creator from '../Creator'
-import type { PromptChoices, InquirerPrompt } from '../types'
+import type Creator from '../Creator';
+import type { PromptChoices, InquirerPrompt } from '../types';
 
 class PromptAPI {
-  private creator: Creator
+  private creator: Creator;
   constructor(creator: Creator) {
-    this.creator = creator
+    this.creator = creator;
   }
 
   injectFeature(feature: PromptChoices) {
-    this.creator.featurePrompt.choices.push(feature)
+    this.creator.featurePrompt.choices.push(feature);
   }
 
   injectPrompt(prompt: InquirerPrompt) {
-    this.creator.injectPrompt.push(prompt)
+    this.creator.injectPrompt.push(prompt);
   }
 
   onPromptCompleteCb(cb: Function) {
-    this.creator.promptCompleteCbs.push(cb)
+    this.creator.promptCompleteCbs.push(cb);
   }
 }
 
-export default PromptAPI
+export default PromptAPI;
