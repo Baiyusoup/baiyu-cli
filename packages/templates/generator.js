@@ -73,7 +73,7 @@ module.exports = function (api, options, rootOptions) {
   }
 
   // 读取模板
-  api.render(`./templates/${templateDir}`);
+  api.render(`./templates/${templateDir}`, { projectName: rootOptions.projectName });
   api.extendPackage({
     scripts,
     dependencies,
