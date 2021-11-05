@@ -11,3 +11,7 @@
 3. commitlint
 4. markdownlint
 5. editorconfig
+
+## 注意
+
+目前 vue3 相关 eslint 配置还没弄好！（岂可修！f2elint 不弄 vue3 的）

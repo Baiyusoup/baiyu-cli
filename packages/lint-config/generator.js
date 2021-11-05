@@ -5,7 +5,7 @@
  */
 module.exports = function (api, options, rootOptions) {
   const eslintExt = ['.js'];
-  const stylelintFiles = ['css'];
+  const stylelintFiles = [];
 
   const langAndTemplate = rootOptions.template.split('/');
   const hasTypescript = langAndTemplate[0] === 'typescript';
@@ -14,6 +14,11 @@ module.exports = function (api, options, rootOptions) {
   // eslint 文件后缀
   if (hasTypescript) {
     eslintExt.push('.ts');
+  }
+
+  // 如果为false，则表明不需要CSS文件，那么lint-staged也不需要检测样式文件
+  if (rootOptions.css) {
+    stylelintFiles.push('css');
   }
 
   let isFrame = false;
@@ -40,17 +45,19 @@ module.exports = function (api, options, rootOptions) {
   }
 
   // lint script 命令
+  const lintedFileExts = [...eslintExt.map((ext) => ext.replace(/^\./, '')), ...stylelintFiles];
   const scripts = {
     prepare: 'bash prepare.sh',
-    lint: 'npm run lint:eslint && npm run lint:stylelint',
+    lint: 'npm run lint:eslint && npm run lint:stylelint && npm run lint:prettier',
     'lint:eslint': `eslint --fix --ext ${eslintExt.join(',')}`,
     'lint:stylelint': `stylelint -fix **/*.{${stylelintFiles.join(',')}}`,
+    'lint:prettier': `prettier --write \\"**/*.{${lintedFileExts.join()}}\\""`,
     'lint:commit': 'commitlint --g commitlint.config.js -e',
     commit: 'cz',
   };
 
   if (!(hasStylelint && rootOptions.css)) {
-    scripts['lint'] = 'npm run lint:eslint';
+    scripts['lint'] = 'npm run lint:eslint && npm run lint:prettier';
     delete scripts['lint:stylelint'];
   }
 
@@ -72,7 +79,7 @@ module.exports = function (api, options, rootOptions) {
   api.render('./config/editor', editorRenderConfig);
 
   const commitRenderConfig = {
-    exts: `${eslintExt.map((ext) => ext.replace(/^\./, '')).join()},${stylelintFiles.join()}`,
+    exts: `${lintedFileExts.join()}`,
   };
   api.render('./config/commit', commitRenderConfig);
 
