@@ -48,17 +48,17 @@ module.exports = function (api, options, rootOptions) {
   const lintedFileExts = [...eslintExt.map((ext) => ext.replace(/^\./, '')), ...stylelintFiles];
   const scripts = {
     prepare: 'bash prepare.sh',
-    lint: 'npm run lint:eslint && npm run lint:stylelint && npm run lint:prettier',
+    lint: 'npm run lint:eslint && npm run lint:style && npm run lint:prettier',
     'lint:eslint': `eslint --fix --ext ${eslintExt.join(',')}`,
-    'lint:stylelint': `stylelint -fix **/*.{${stylelintFiles.join(',')}}`,
-    'lint:prettier': `prettier --write \\"**/*.{${lintedFileExts.join()}}\\""`,
+    'lint:style': `stylelint --fix **/*.{${stylelintFiles.join(',')}}`,
+    'lint:prettier': `prettier --write \"**/*.{${lintedFileExts.join()}}\""`,
     'lint:commit': 'commitlint --g commitlint.config.js -e',
     commit: 'cz',
   };
 
   if (!(hasStylelint && rootOptions.css)) {
     scripts['lint'] = 'npm run lint:eslint && npm run lint:prettier';
-    delete scripts['lint:stylelint'];
+    delete scripts['lint:style'];
   }
 
   api.extendPackage({
