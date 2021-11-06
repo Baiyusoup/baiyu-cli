@@ -2,6 +2,7 @@ node_modules/
 dist/
 public/
 build/
+lib/
 packages/templates/templates/
 packages/lint-config/config/
 **/*.min.js

@@ -11,6 +11,13 @@
   "homepage": "https://github.com/Baiyusoup/baiyu-cli/packages/templates#readme.md",
   "license": "MIT",
   "main": "generator.js",
+  "directories": {
+    "templates": "templates"
+  },
+  "files": [
+    "templates",
+    "generator.js"
+  ],
   "publishConfig": {
     "access": "public"
   },

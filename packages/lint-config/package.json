@@ -9,6 +9,13 @@
   "homepage": "https://github.com/Baiyusoup/baiyu-cli/packages/lint-config#readme.md",
   "license": "MIT",
   "main": "generator.js",
+  "directories": {
+    "config": "config"
+  },
+  "files": [
+    "config",
+    "generator.js"
+  ],
   "publishConfig": {
     "access": "public"
   },
