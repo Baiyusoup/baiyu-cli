@@ -67,7 +67,7 @@ class Creator {
             deps.forEach((dep) => {
                 let { version } = preset.plugins[dep];
                 if (!version) {
-                    version = '~0.1.0';
+                    version = '^1.0.0';
                 }
                 pkg.devDependencies[dep] = version;
             });
