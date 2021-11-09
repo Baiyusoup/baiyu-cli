@@ -1,17 +1,14 @@
 {
   "name": "baiyu-cli",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "description": "个人自用的CLI工具",
-  "main": "index.js",
   "repository": "https://github.com/Baiyusoup/baiyu-cli.git",
   "author": "Baiyusoup",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "bash prepare.sh",
+    "preinstall": "npx only-allow pnpm",
     "ut": "node scripts/test.js",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint --fix --ext .js,.ts",
@@ -36,7 +33,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.2",
     "jest": "^27.2.4",
-    "lerna": "^4.0.0",
     "lint-staged": "^11.2.0",
     "minimist": "^1.2.5",
     "prettier": "^2.4.1"
