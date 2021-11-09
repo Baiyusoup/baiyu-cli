@@ -75,36 +75,28 @@ async function main() {
   }
 
   // run tests before release
-  step('\nRunning tests...');
-  if (!skipTests && !isDryRun) {
-    await run(bin('jest'), ['--clearCache']);
-    await run('pnpm', ['test', '--', '--bail']);
-  } else {
-    console.log(`(skipped)`);
-  }
+  // step('\nRunning tests...');
+  // if (!skipTests && !isDryRun) {
+  //   await run(bin('jest'), ['--clearCache']);
+  //   await run('pnpm', ['test', '--', '--bail']);
+  // } else {
+  //   console.log(`(skipped)`);
+  // }
 
   // update all package versions and inter-dependencies
   step('\nUpdating cross dependencies...');
   updateVersions(targetVersion);
 
   // build all packages with types
-  step('\nBuilding all packages...');
-  if (!skipBuild && !isDryRun) {
-    await run('pnpm', ['run', 'build', '--', '--release']);
-    // test generated dts files
-    step('\nVerifying type declarations...');
-    await run('pnpm', ['run', 'test-dts-only']);
-  } else {
-    console.log(`(skipped)`);
-  }
-
-  // generate changelog
-  step('\nGenerating changelog...');
-  await run(`pnpm`, ['run', 'changelog']);
-
-  // update pnpm-lock.yaml
-  step('\nUpdating lockfile...');
-  await run(`pnpm`, ['install', '--prefer-offline']);
+  // step('\nBuilding all packages...');
+  // if (!skipBuild && !isDryRun) {
+  //   await run('pnpm', ['run', 'build', '--', '--release']);
+  //   // test generated dts files
+  //   step('\nVerifying type declarations...');
+  //   await run('pnpm', ['run', 'test-dts-only']);
+  // } else {
+  //   console.log(`(skipped)`);
+  // }
 
   const { stdout } = await run('git', ['diff'], { stdio: 'pipe' });
   if (stdout) {
@@ -152,23 +144,7 @@ function updatePackage(pkgRoot, version) {
   const pkgPath = path.resolve(pkgRoot, 'package.json');
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
   pkg.version = version;
-  updateDeps(pkg, 'dependencies', version);
-  updateDeps(pkg, 'peerDependencies', version);
   fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
-}
-
-function updateDeps(pkg, depType, version) {
-  const deps = pkg[depType];
-  if (!deps) return;
-  Object.keys(deps).forEach((dep) => {
-    if (
-      dep === 'vue' ||
-      (dep.startsWith('@vue') && packages.includes(dep.replace(/^@vue\//, '')))
-    ) {
-      console.log(chalk.yellow(`${pkg.name} -> ${depType} -> ${dep}@${version}`));
-      deps[dep] = version;
-    }
-  });
 }
 
 async function publishPackage(pkgName, version, runIfNotDry) {
