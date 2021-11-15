@@ -8,7 +8,7 @@
     "template"
   ],
   "author": "Baiyusoup <1575727840@qq.com>",
-  "homepage": "https://github.com/Baiyusoup/baiyu-cli/packages/templates#readme.md",
+  "homepage": "https://github.com/Baiyusoup/baiyu-cli/tree/master/packages/templates#readme.md",
   "license": "MIT",
   "main": "generator.js",
   "directories": {
