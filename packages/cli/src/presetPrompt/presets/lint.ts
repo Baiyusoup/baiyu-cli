@@ -20,6 +20,10 @@ export default function (api: PromptAPI) {
         checked: true,
       },
       {
+        name: 'Commitlint',
+        value: 'commitlint',
+      },
+      {
         name: 'Stylelint',
         value: 'stylelint',
       },
