@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['ali'],
+  extends: ['@commitlint/config-angular'],
   rules: {
     'type-enum': [
       2,
@@ -14,6 +14,7 @@ module.exports = {
         'perf',
         'refactor',
         'revert',
+        'release',
         'style',
         'test',
         'anno',

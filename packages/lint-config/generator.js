@@ -47,22 +47,49 @@ module.exports = function (api, options, rootOptions) {
   // lint script 命令
   const lintedFileExts = [...eslintExt.map((ext) => ext.replace(/^\./, '')), ...stylelintFiles];
   const scripts = {
-    prepare: 'bash prepare.sh',
-    lint: 'npm run lint:eslint && npm run lint:style && npm run lint:prettier',
-    'lint:eslint': `eslint --fix --ext ${eslintExt.join(',')}`,
-    'lint:style': `stylelint --fix **/*.{${stylelintFiles.join(',')}}`,
-    'lint:prettier': `prettier --write \"**/*.{${lintedFileExts.join()}}\""`,
-    'lint:commit': 'commitlint --g commitlint.config.js -e',
+    lint: 'npm run eslint && npm run stylelint && npm run format',
+    eslint: `eslint --fix --ext ${eslintExt.join(',')}`,
+    stylelint: `stylelint --fix **/*.{${stylelintFiles.join(',')}}`,
+    commitlint: 'commitlint --g commitlint.config.js -e',
+    format: `prettier --write \\"**/*.{${lintedFileExts.join()}}\\"`,
     commit: 'cz',
   };
 
   if (!(hasStylelint && rootOptions.css)) {
-    scripts['lint'] = 'npm run lint:eslint && npm run lint:prettier';
-    delete scripts['lint:style'];
+    scripts['lint'] = 'npm run eslint && npm run format';
+    delete scripts['stylelint'];
+  }
+
+  const devDependencies = {
+    eslint: '^8.2.0',
+    prettier: '^2.4.1',
+    'eslint-config-prettier': '^8.3.0',
+  };
+
+  if (options.config.includes('commitlint')) {
+    scripts['prepare'] = 'bash prepare.sh';
+    Object.assign(devDependencies, {
+      '@commitlint/cli': '^13.2.0',
+      '@commitlint/config-angular': '^14.1.0',
+      commitizen: '^4.2.4',
+      'conventional-changelog-cli': '^2.1.1',
+      husky: '^7.0.2',
+      'lint-staged': '^11.2.0',
+    });
+  }
+
+  if (isFrame) {
+    devDependencies['@antfu/eslint-config'] = '^0.10.0';
+  } else if (hasTypescript) {
+    devDependencies['@antfu/eslint-config-ts'] = '^0.10.0';
+  } else {
+    // node/native template
+    devDependencies['@antfu/eslint-config-basic'] = '^0.10.0';
   }
 
   api.extendPackage({
     scripts,
+    devDependencies,
   });
 
   // lint 模板
@@ -78,10 +105,12 @@ module.exports = function (api, options, rootOptions) {
   };
   api.render('./config/editor', editorRenderConfig);
 
-  const commitRenderConfig = {
-    exts: `${lintedFileExts.join()}`,
-  };
-  api.render('./config/commit', commitRenderConfig);
+  if (options.config.includes('commitlint')) {
+    const commitRenderConfig = {
+      exts: `${lintedFileExts.join()}`,
+    };
+    api.render('./config/commit', commitRenderConfig);
+  }
 
   // 使用stylelint模板
   if (hasStylelint && rootOptions.css) {
