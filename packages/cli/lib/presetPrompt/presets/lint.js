@@ -19,6 +19,10 @@ function default_1(api) {
                 checked: true,
             },
             {
+                name: 'Commitlint',
+                value: 'commitlint',
+            },
+            {
                 name: 'Stylelint',
                 value: 'stylelint',
             },

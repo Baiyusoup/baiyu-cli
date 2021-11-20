@@ -1,6 +1,6 @@
 {
   "name": "baiyu-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "个人自用的CLI工具",
   "repository": "https://github.com/Baiyusoup/baiyu-cli.git",
   "author": "Baiyusoup",
@@ -10,6 +10,7 @@
     "prepare": "bash prepare.sh",
     "preinstall": "npx only-allow pnpm",
     "ut": "node scripts/test.js",
+    "build": "pnpm -C packages/cli build",
     "release": "node ./scripts/release.js",
     "lint": "npm run lint:eslint && npm run format",
     "lint:eslint": "eslint --fix --ext packages/*/src/**/*.{ts,js}",

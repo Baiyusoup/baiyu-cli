@@ -88,15 +88,12 @@ async function main() {
   updateVersions(targetVersion);
 
   // build all packages with types
-  // step('\nBuilding all packages...');
-  // if (!skipBuild && !isDryRun) {
-  //   await run('pnpm', ['run', 'build', '--', '--release']);
-  //   // test generated dts files
-  //   step('\nVerifying type declarations...');
-  //   await run('pnpm', ['run', 'test-dts-only']);
-  // } else {
-  //   console.log(`(skipped)`);
-  // }
+  step('\nBuilding all packages...');
+  if (!skipBuild && !isDryRun) {
+    await run('pnpm', ['run', 'build', '--', '--release']);
+  } else {
+    console.log(`(skipped)`);
+  }
 
   const { stdout } = await run('git', ['diff'], { stdio: 'pipe' });
   if (stdout) {
