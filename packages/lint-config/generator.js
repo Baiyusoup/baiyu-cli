@@ -38,7 +38,7 @@ module.exports = function (api, options, rootOptions) {
   // 如果用户使用规范工具有stylelint，也选择使用样式文件 -> 使用stylelint
   const hasStylelint = options.config.includes('stylelint');
   if (hasStylelint && rootOptions.css) {
-    stylelintFiles.push('scss', 'less');
+    stylelintFiles.push('scss');
     if (template === 'vue') {
       stylelintFiles.push('vue');
     }
@@ -47,16 +47,17 @@ module.exports = function (api, options, rootOptions) {
   // lint script 命令
   const lintedFileExts = [...eslintExt.map((ext) => ext.replace(/^\./, '')), ...stylelintFiles];
   const scripts = {
-    lint: 'npm run eslint && npm run stylelint && npm run format',
+    lint: 'npm run eslint && npm run lint:style',
     eslint: `eslint --fix --ext ${eslintExt.join(',')}`,
-    stylelint: `stylelint --fix **/*.{${stylelintFiles.join(',')}}`,
-    commitlint: 'commitlint --g commitlint.config.js -e',
-    format: `prettier --write \\"**/*.{${lintedFileExts.join()}}\\"`,
+    'lint:style': `stylelint --fix **/*.{${stylelintFiles.join(',')}}`,
+    'lint:commit': 'commitlint --g commitlint.config.js -e',
+    format: `prettier --write`,
     commit: 'cz',
   };
 
   if (!(hasStylelint && rootOptions.css)) {
-    scripts['lint'] = 'npm run eslint && npm run format';
+    scripts['lint'] = scripts['eslint'];
+    delete scripts['eslint'];
     delete scripts['stylelint'];
   }
 
