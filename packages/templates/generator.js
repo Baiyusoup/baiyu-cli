@@ -41,7 +41,6 @@ module.exports = function (api, options, rootOptions) {
     if (rootOptions.preprocessor) {
       Object.assign(devDependencies, {
         sass: '^1.32.7',
-        less: '^4.0.0',
       });
     }
 
