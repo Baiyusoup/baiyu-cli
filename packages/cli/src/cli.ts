@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
+import { log } from 'utils/log';
 import create from './actions/create';
 
 program
@@ -15,10 +16,10 @@ program
   });
 
 program.on('--help', () => {
-  console.log();
-  console.log(' 运行baiyu <command> --help获取命令使用说明');
-  console.log();
+  log();
+  log(' 运行baiyu <command> --help获取命令使用说明');
+  log();
 });
 
-program.commands.forEach((c) => c.on('--help', () => console.log()));
+program.commands.forEach((c) => c.on('--help', () => log()));
 program.parse(process.argv);

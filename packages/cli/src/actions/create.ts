@@ -5,20 +5,21 @@ import validateProjectName from 'validate-npm-package-name';
 import Creator from '../Creator';
 import resolvePreset from '../presetPrompt';
 import type { InitOptions } from '../types';
+import { error, log, warn } from '../utils/log';
 
 async function create(options: InitOptions) {
   const { projectName } = options;
   const validationResult = validateProjectName(projectName);
 
   if (!validationResult.validForNewPackages) {
-    console.error(`Invalidate projectName: ${projectName}`);
-    validationResult.errors && validationResult.errors.forEach((err) => console.error(err));
-    validationResult.warnings && validationResult.warnings.forEach((warn) => console.warn(warn));
+    error(`Invalidate projectName: ${projectName}`);
+    validationResult.errors && validationResult.errors.forEach((err) => error(err));
+    validationResult.warnings && validationResult.warnings.forEach((warnMsg) => warn(warnMsg));
   }
   const context = process.cwd();
   const projectDir = path.resolve(context, projectName);
   if (fs.existsSync(projectDir)) {
-    console.log('The project directory is existing!');
+    log('The project directory is existing!');
     const { action } = await inquirer.prompt([
       {
         name: 'action',
@@ -31,10 +32,10 @@ async function create(options: InitOptions) {
       },
     ]);
     if (action === 'overwrite') {
-      console.log(`\nRemoving ${projectDir}...`);
+      log(`\nRemoving ${projectDir}...`);
       await fs.remove(projectDir);
     } else {
-      console.log('You cancel created project!');
+      log('You cancel created project!');
       return;
     }
   }
@@ -47,7 +48,7 @@ export default async function (options: InitOptions) {
   try {
     return create(options);
   } catch (e) {
-    console.error(e);
+    error(e);
     process.exit(1);
   }
 }
