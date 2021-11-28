@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { log } from 'utils/log';
+import { log } from './utils/log';
 import create from './actions/create';
 
 program
