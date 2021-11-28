@@ -26,4 +26,7 @@ export const PACKAGE_MANAGER_CONFIG = {
   yarn: {
     install: 'install',
   },
+  pnpm: {
+    install: 'install',
+  },
 };
