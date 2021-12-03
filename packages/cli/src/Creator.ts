@@ -55,6 +55,7 @@ class Creator {
     preset.projectName = this.name;
 
     log(`✨ Creating project...`);
+    log();
     const pkg: PKG = {
       name: this.name,
       version: '1.0.0',
@@ -77,6 +78,7 @@ class Creator {
     });
 
     log(`🗃 Initialing git...`);
+    log();
     await this.run('git', ['init']);
 
     log(`⚙\u{fe0f} Install plugins...`);
@@ -84,6 +86,7 @@ class Creator {
     await this.run(pkgManger, [PACKAGE_MANAGER_CONFIG[pkgManger].install]);
 
     log(`🚀 Invoking plugins...`);
+    log();
     const plugins = await this.resolvePlugins(preset.plugins);
     const generator = new Generator({
       context: this.context,
